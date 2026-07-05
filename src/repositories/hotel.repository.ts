@@ -22,7 +22,11 @@ export async function getHotelById(id: number): Promise<Hotel> {
 }
 
 export async function getAllHotels(): Promise<Hotel[]> {
-    const hotels = await Hotel.findAll();
+    const hotels = await Hotel.findAll({
+        where:{
+            deletedAt:null
+        }
+    });
     logger.info(`Fetched ${hotels.length} hotels`);
     return hotels;
 }
@@ -34,8 +38,17 @@ export async function updateHotel(id: number, hotel: UpdateHotelDto): Promise<Ho
     return updatedHotel;
 }
 
-export async function deleteHotel(id: number): Promise<void> {
+
+export async function softDeleteHotel(id: number): Promise<void> {
     const existingHotel = await getHotelById(id);
-    await existingHotel.destroy();
-    logger.info(`Hotel deleted successfully: ${id}`);
+    
+     if(!existingHotel){
+        logger.error(`Hotel not found: ${id}`);
+        throw new NotFoundError(`Hotel not found: ${id}`);
+     }
+
+     existingHotel.deletedAt = new Date();
+     await existingHotel.save();
+     logger.info(`Hotel soft deleted successfully: ${id}`);
 }
+ 

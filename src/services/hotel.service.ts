@@ -1,5 +1,5 @@
 import { CreateHotelDto, UpdateHotelDto } from "../dto/hotel.dto";
-import { createHotel, deleteHotel, getAllHotels, getHotelById, updateHotel } from "../repositories/hotel.repository";
+import { createHotel, getAllHotels, getHotelById, softDeleteHotel, updateHotel } from "../repositories/hotel.repository";
 
 export async function createHotelService(hotel: CreateHotelDto){
 
@@ -24,5 +24,5 @@ export async function updateHotelService(id: number, hotel: UpdateHotelDto){
 }
 
 export async function deleteHotelService(id: number){
-    await deleteHotel(id);
+    await softDeleteHotel(id);
 }
