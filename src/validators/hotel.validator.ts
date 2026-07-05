@@ -7,3 +7,5 @@ export const createHotelSchema = z.object({
     rating: z.number().optional(),
     rating_count: z.number().optional(),
 });
+
+export const updateHotelSchema = createHotelSchema.partial();

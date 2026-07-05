@@ -5,3 +5,5 @@ location: string;
 rating?: number;
 ratingCount?: number;
 }
+
+export type UpdateHotelDto = Partial<CreateHotelDto>;

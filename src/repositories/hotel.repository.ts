@@ -1,5 +1,5 @@
 import Hotel from "../db/models/hotels";
-import { CreateHotelDto } from "../dto/hotel.dto";
+import { CreateHotelDto, UpdateHotelDto } from "../dto/hotel.dto";
 import logger from "../config/logger.config";
 import { NotFoundError } from "../utils/errors/app.error";
 
@@ -10,7 +10,7 @@ export async function createHotel(hotel: CreateHotelDto): Promise<Hotel> {
 }
 
 
-export async function getHotelById(id: number): Promise<Hotel | null> {
+export async function getHotelById(id: number): Promise<Hotel> {
     const hotel = await Hotel.findByPk(id);
     if (!hotel) {
         logger.error(`Hotel not found: ${id}`);
@@ -19,4 +19,23 @@ export async function getHotelById(id: number): Promise<Hotel | null> {
 
     logger.info(`Hotel found: ${hotel.id}`);
     return hotel;
+}
+
+export async function getAllHotels(): Promise<Hotel[]> {
+    const hotels = await Hotel.findAll();
+    logger.info(`Fetched ${hotels.length} hotels`);
+    return hotels;
+}
+
+export async function updateHotel(id: number, hotel: UpdateHotelDto): Promise<Hotel> {
+    const existingHotel = await getHotelById(id);
+    const updatedHotel = await existingHotel.update(hotel);
+    logger.info(`Hotel updated successfully: ${updatedHotel.id}`);
+    return updatedHotel;
+}
+
+export async function deleteHotel(id: number): Promise<void> {
+    const existingHotel = await getHotelById(id);
+    await existingHotel.destroy();
+    logger.info(`Hotel deleted successfully: ${id}`);
 }
