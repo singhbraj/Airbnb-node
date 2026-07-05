@@ -1,6 +1,6 @@
- import { QueryInterface } from "sequelize"
- 
- module.exports = {
+import { QueryInterface } from "sequelize"
+
+const migration = {
 
   async up(queryInterface:QueryInterface){
 
@@ -25,4 +25,6 @@
 
   }
 
- }
+}
+
+export = migration;
