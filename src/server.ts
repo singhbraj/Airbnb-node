@@ -32,7 +32,6 @@ app.listen(serverConfig.PORT, async() => {
     logger.info(`Press Ctrl+C to stop the server.`);
 
     try{
-
         await sequelize.authenticate()
         logger.info('Database connected successfully')
 
