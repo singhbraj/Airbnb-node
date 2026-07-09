@@ -29,8 +29,8 @@ key String @unique
 createdAt DateTime @default(now())
 updatedAt DateTime @updatedAt
 finalized Boolean @default(false)
-bookignId Int @unique
-booking Booking? @relation(fields:[bookignId], references:[id])
+bookingId Int @unique
+booking Booking? @relation(fields: [bookingId], references: [id])
 }
 
 
