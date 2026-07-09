@@ -18,8 +18,8 @@ updatedAt DateTime @updatedAt
 bookingAmount Int
 totalGuests Int
 status BookingStatus @default(PENDING)
-idempotencyKeyId Int? @unique
-idempotencyKey IdempotencyKey? @relation(fields: [idempotencyKeyId], references: [id])
+idempotencyKey IdempotencyKey?
+
 
 }
 
@@ -28,8 +28,9 @@ id  Int @id @default(autoincrement())
 key String @unique
 createdAt DateTime @default(now())
 updatedAt DateTime @updatedAt
-booking Booking?
-
+finalized Boolean @default(false)
+bookignId Int @unique
+booking Booking? @relation(fields:[bookignId], references:[id])
 }
 
 
