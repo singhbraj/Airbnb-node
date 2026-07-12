@@ -4,6 +4,7 @@ import { createBooking } from "../repositories/booking.repository";
 import { BadRequestError, InternalServerError, NotFoundError } from "../utils/errors/app.error";
 import { CreateBookingDTO } from "../dto/booking.dto";
 import prisma from "../prisma/client";
+import { Prisma } from "../generated/prisma/client";
 import { redlock } from "../config/redis.config";
 import { serverConfig } from "../config";
 
@@ -41,7 +42,7 @@ export async function createBookingService(createBookingDTO: CreateBookingDTO){
 
 export async function confirmBookingService(idempotencyKey: string){
 
-    return prisma.$transaction(async (tx) => {
+    return prisma.$transaction(async (tx: Prisma.TransactionClient) => {
         const idempotencyKeyData = await getIdempotencyKeyWithLock(tx, idempotencyKey);
         if (!idempotencyKeyData ||!idempotencyKeyData.bookingId) {
             throw new NotFoundError("Idempotency key not found");
