@@ -1,64 +1,72 @@
-import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
-import sequelize from "../sequelize";
-
-
-class Hotel extends Model<InferAttributes<Hotel>, InferCreationAttributes<Hotel>>{
-
+import {
+    CreationOptional,
+    InferAttributes,
+    InferCreationAttributes,
+    Model,
+  } from 'sequelize';
+  import sequelize from './sequelize';
+  
+  class Hotel extends Model<
+    InferAttributes<Hotel>,
+    InferCreationAttributes<Hotel>
+  > {
     declare id: CreationOptional<number>;
     declare name: string;
-    declare address:string;
+    declare address: string;
     declare location: string;
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
-    declare deletedAt?: CreationOptional<Date | null>;
+    declare deletedAt: CreationOptional<Date | null>;
     declare rating?: number;
-    declare rating_count?: number;
-}
-
-
-Hotel.init({
-    id: {
-        type: DataTypes.INTEGER,
+    declare ratingCount?: number;
+  }
+  
+  Hotel.init(
+    {
+      id: {
+        type: 'INTEGER',
         autoIncrement: true,
         primaryKey: true,
-    },
-    name: {
-        type: DataTypes.STRING,
+      },
+      name: {
+        type: 'STRING',
         allowNull: false,
-    },
-    address: {
-        type: DataTypes.STRING,
+      },
+      address: {
+        type: 'STRING',
         allowNull: false,
-    },
-    location: {
-        type: DataTypes.STRING,
+      },
+      location: {
+        type: 'STRING',
         allowNull: false,
-    },
-    rating: {
-        type: DataTypes.DECIMAL(3, 2),
-        defaultValue: null,
-    },
-    rating_count: {
-        type: DataTypes.INTEGER,
-        defaultValue: null,
-    },
-    createdAt: {
-        type: DataTypes.DATE,
+      },
+      createdAt: {
+        type: 'DATE',
         defaultValue: new Date(),
-    },
-    updatedAt: {
-        type: DataTypes.DATE,
+      },
+      updatedAt: {
+        type: 'DATE',
         defaultValue: new Date(),
-    },
-    deletedAt: {
-        type: DataTypes.DATE,
+      },
+      deletedAt: {
+        type: 'DATE',
         defaultValue: null,
+      },
+      rating: {
+        type: 'FLOAT',
+        defaultValue: null,
+      },
+      ratingCount: {
+        type: 'INTEGER',
+        defaultValue: null,
+      },
     },
-},{
-    sequelize,
-    tableName: "hotels",
-    underscored: true, // createdAt --> created_at
-    timestamps:true,   // createdAt, updatedAt
-})
-
-export default Hotel;
+    {
+      tableName: 'hotels',
+      sequelize: sequelize,
+      underscored: true, // createdAt --> created_at
+      timestamps: true, // createdAt, updatedAt
+    }
+  );
+  
+  export default Hotel;
