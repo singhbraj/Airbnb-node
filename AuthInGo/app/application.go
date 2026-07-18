@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	"AuthInGo/config/env"
 )
 
 // Config holds the configuration for the application
@@ -16,9 +18,11 @@ type Application struct {
 }
 
 // Constructor for the Config struct
-func NewConfig(addr string) Config {
+func NewConfig() Config {
+	port := env.GetString("PORT", ":8080")
+
 	return Config{
-		Addr: addr,
+		Addr: port,
 	}
 }
 

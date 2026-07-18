@@ -2,12 +2,15 @@ package main
 
 import (
 	"AuthInGo/app"
+	"AuthInGo/config/env"
 	"fmt"
 	"log"
 )
 
 func main() {
-	cfg := app.NewConfig(":3001")
+	env.Load()
+
+	cfg := app.NewConfig()
 
 	application := app.NewApplication(cfg)
 
