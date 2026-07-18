@@ -6,6 +6,10 @@ import (
 	"time"
 
 	"AuthInGo/config/env"
+	db "AuthInGo/db/repositories"
+	"AuthInGo/router"
+	"AuthInGo/controllers"
+	"AuthInGo/services"
 )
 
 // Config holds the configuration for the application
@@ -15,6 +19,7 @@ type Config struct {
 
 type Application struct {
 	Config Config
+	Store  *db.Storage
 }
 
 // Constructor for the Config struct
@@ -30,13 +35,20 @@ func NewConfig() Config {
 func NewApplication(config Config) *Application {
 	return &Application{
 		Config: config,
+		Store:  db.NewStorage(),
 	}
 }
 
 func (app *Application) Run() error {
+
+	ur := db.NewUserRepository()
+	us := services.NewUserService(ur)
+	uc := controllers.NewUserController(us)
+	uRouter := router.NewUserRouter(uc)
+
 	server := &http.Server{
 		Addr:         app.Config.Addr,
-		Handler:      nil, // TODO: Setup a chi router here
+		Handler:      router.SetupRoutes(uRouter),
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 30 * time.Second,
 		IdleTimeout:  30 * time.Second,
