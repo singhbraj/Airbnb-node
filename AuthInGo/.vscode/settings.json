@@ -1,0 +1,9 @@
+{
+  "go.useLanguageServer": true,
+  "go.alternateTools": {
+    "gopls": "/Users/brajkishorsingh/go/bin/gopls"
+  },
+  "gopls": {
+    "build.directoryFilters": ["-**/node_modules"]
+  }
+}
