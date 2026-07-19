@@ -7,7 +7,7 @@ import (
 
 type UserRepository interface{
 	GetById() (*models.User, error)
-	Create()  error
+	Create(username string, email string, hashedPassword string)  error
 }
 
 type UserRepositoryImpl struct{
@@ -20,11 +20,11 @@ func NewUserRepository(_db *sql.DB) UserRepository {
 	}
 }
 
-func (u *UserRepositoryImpl) Create()  error{
+func (u *UserRepositoryImpl) Create(username string, email string, hashedPassword string)  error{
 	fmt.Println("Creating user in user repository")
 	query := "INSERT INTO users (username, email, password) VALUES (?, ?, ?)"
 
-	result, err := u.db.Exec(query, "test", "test@test.com", "test")
+	result, err := u.db.Exec(query, username, email, hashedPassword)
 	if err != nil {
 		return err
 	}
