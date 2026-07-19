@@ -6,10 +6,11 @@ import (
 	"time"
 
 	"AuthInGo/config/env"
-	db "AuthInGo/db/repositories"
+	repo "AuthInGo/db/repositories"
 	"AuthInGo/router"
 	"AuthInGo/controllers"
 	"AuthInGo/services"
+	DBconfig "AuthInGo/config/db"
 )
 
 // Config holds the configuration for the application
@@ -19,7 +20,7 @@ type Config struct {
 
 type Application struct {
 	Config Config
-	Store  *db.Storage
+	Store  *repo.Storage
 }
 
 // Constructor for the Config struct
@@ -35,13 +36,17 @@ func NewConfig() Config {
 func NewApplication(config Config) *Application {
 	return &Application{
 		Config: config,
-		Store:  db.NewStorage(),
+		Store:  repo.NewStorage(),
 	}
 }
 
 func (app *Application) Run() error {
+	db, err := DBconfig.SetupDB()
+	if err != nil {
+		return err
+	}
 
-	ur := db.NewUserRepository()
+	ur := repo.NewUserRepository(db)
 	us := services.NewUserService(ur)
 	uc := controllers.NewUserController(us)
 	uRouter := router.NewUserRouter(uc)

@@ -17,6 +17,7 @@ func SetupDB() (*sql.DB, error) {
   cfg.Net = "tcp"
   cfg.Addr = env.GetString("DB_ADDR", "127.0.0.1:3306")
   cfg.DBName = env.GetString("DB_NAME", "auth_dev")
+  cfg.ParseTime = true // needed to scan DATETIME/TIMESTAMP into time.Time
 
   fmt.Println("Conneecting to database...")
 
